@@ -17,9 +17,8 @@ connectDB();
 const app = express();
 
 // Middleware
-const allowedOrigin = process.env.CLIENT_URL || 'http://localhost:5173';
 app.use(cors({
-  origin: allowedOrigin,
+  origin: true,
   credentials: true
 }));
 
@@ -52,6 +51,6 @@ app.use((req, res, next) => {
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`MealMate Server running in ${process.env.NODE_ENV || 'development'} mode on port ${PORT}`);
 });
