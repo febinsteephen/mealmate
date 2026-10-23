@@ -119,8 +119,34 @@ const getMe = async (req, res) => {
   });
 };
 
+// @desc    Get directory of registered hotels and camps
+// @route   GET /api/auth/directory
+// @access  Public
+const getCommunityDirectory = async (req, res, next) => {
+  try {
+    const hotels = await User.find({ role: 'hotel' })
+      .select('organizationName name phone email createdAt')
+      .sort({ organizationName: 1 });
+
+    const camps = await User.find({ role: 'camp' })
+      .select('organizationName name phone email createdAt')
+      .sort({ organizationName: 1 });
+
+    res.status(200).json({
+      success: true,
+      data: {
+        hotels,
+        camps
+      }
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   registerUser,
   loginUser,
-  getMe
+  getMe,
+  getCommunityDirectory
 };

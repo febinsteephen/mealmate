@@ -21,6 +21,13 @@ function Navbar({ activeTab, setActiveTab, onOpenAuth }) {
           🔍 Browse Available Food
         </button>
 
+        <button
+          className={`nav-link ${activeTab === 'directory' ? 'active' : ''}`}
+          onClick={() => setActiveTab('directory')}
+        >
+          🏢 Community Directory
+        </button>
+
         {user?.role === 'hotel' && (
           <>
             <button

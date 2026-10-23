@@ -6,6 +6,7 @@ import BrowseFoodPage from './pages/BrowseFoodPage';
 import HotelDashboard from './pages/HotelDashboard';
 import HotelOrdersPage from './pages/HotelOrdersPage';
 import CampOrdersPage from './pages/CampOrdersPage';
+import DirectoryPage from './pages/DirectoryPage';
 import './App.css';
 
 function MainLayout() {
@@ -27,6 +28,10 @@ function MainLayout() {
             onOpenAuth={() => setIsAuthOpen(true)}
             onClaimSuccess={() => setActiveTab('camp-orders')}
           />
+        )}
+
+        {activeTab === 'directory' && (
+          <DirectoryPage />
         )}
 
         {activeTab === 'hotel-dashboard' && user?.role === 'hotel' && (
