@@ -19,15 +19,15 @@ const seedData = async () => {
     await Order.deleteMany();
     console.log('Cleared existing database records.');
 
-    // Password for sample accounts: password123
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash('password123', salt);
+    // Password for sample accounts is plain text 'password123',
+    // Mongoose pre('save') hook in User model will hash it once!
+    const defaultPassword = 'password123';
 
     // 1. Create Sample Hotels
     const hotel1 = await User.create({
       name: 'Suresh Kumar',
       email: 'hotel.malabar@example.com',
-      password: hashedPassword,
+      password: defaultPassword,
       role: 'hotel',
       organizationName: 'Hotel Grand Malabar',
       phone: '9847012345'
@@ -36,7 +36,7 @@ const seedData = async () => {
     const hotel2 = await User.create({
       name: 'Venkatesh Iyer',
       email: 'hotel.aryas@example.com',
-      password: hashedPassword,
+      password: defaultPassword,
       role: 'hotel',
       organizationName: 'Aryaas Veg Restaurant',
       phone: '9847123456'
@@ -46,7 +46,7 @@ const seedData = async () => {
     const camp1 = await User.create({
       name: 'Sister Mary',
       email: 'camp.wayanad@example.com',
-      password: hashedPassword,
+      password: defaultPassword,
       role: 'camp',
       organizationName: 'Wayanad Flood Relief Camp #1',
       phone: '9447011223'
@@ -55,7 +55,7 @@ const seedData = async () => {
     const camp2 = await User.create({
       name: 'Anil Varma',
       email: 'camp.karuna@example.com',
-      password: hashedPassword,
+      password: defaultPassword,
       role: 'camp',
       organizationName: 'Karuna Community Shelter',
       phone: '9447334455'
