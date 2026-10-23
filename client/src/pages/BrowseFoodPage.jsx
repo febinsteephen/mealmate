@@ -44,6 +44,17 @@ function BrowseFoodPage({ onOpenAuth, onClaimSuccess }) {
     fetchListings();
   };
 
+  const handleResetDemo = async () => {
+    setLoading(true);
+    try {
+      await api.post('/listings/reset-demo');
+      fetchListings();
+    } catch (err) {
+      alert(err.message || 'Failed to refresh demo listings');
+      setLoading(false);
+    }
+  };
+
   const handleOpenClaim = (listing) => {
     if (!user) {
       onOpenAuth();
@@ -93,15 +104,26 @@ function BrowseFoodPage({ onOpenAuth, onClaimSuccess }) {
           </p>
         </div>
 
-        <form onSubmit={handleSearchSubmit} className="search-box">
-          <input
-            type="text"
-            placeholder="Search by food or hotel name..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-          <button type="submit" className="btn-search">Search</button>
-        </form>
+        <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', alignItems: 'center' }}>
+          <form onSubmit={handleSearchSubmit} className="search-box">
+            <input
+              type="text"
+              placeholder="Search food or hotel..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+            <button type="submit" className="btn-search">Search</button>
+          </form>
+          <button
+            type="button"
+            className="btn-secondary"
+            title="Refresh demo batch with active expiry times"
+            onClick={handleResetDemo}
+            style={{ fontSize: '0.85rem', whiteSpace: 'nowrap' }}
+          >
+            🔄 Refresh Demo Food
+          </button>
+        </div>
       </div>
 
       {/* Filter Chips */}
@@ -135,8 +157,11 @@ function BrowseFoodPage({ onOpenAuth, onClaimSuccess }) {
       {!loading && !error && listings.length === 0 && (
         <div className="state-box empty">
           <span style={{ fontSize: '2.5rem' }}>🍽️</span>
-          <h3>No Surplus Food Listings Right Now</h3>
-          <p>Check back in a little while, or restaurants can log in to post surplus food.</p>
+          <h3>All Food Currently Claimed or Expired</h3>
+          <p>You can refresh the active demo food listings anytime to test or evaluate!</p>
+          <button className="btn-primary" style={{ marginTop: '1rem' }} onClick={handleResetDemo}>
+            🔄 Restore Active Food Listings
+          </button>
         </div>
       )}
 
