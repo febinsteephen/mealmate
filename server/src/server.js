@@ -4,6 +4,10 @@ const dotenv = require('dotenv');
 const connectDB = require('./config/db');
 const errorHandler = require('./middleware/errorHandler');
 
+const authRoutes = require('./routes/authRoutes');
+const listingRoutes = require('./routes/listingRoutes');
+const orderRoutes = require('./routes/orderRoutes');
+
 // Load environment variables
 dotenv.config();
 
@@ -30,6 +34,11 @@ app.get('/api/health', (req, res) => {
     timestamp: new Date().toISOString()
   });
 });
+
+// API Routes
+app.use('/api/auth', authRoutes);
+app.use('/api/listings', listingRoutes);
+app.use('/api/orders', orderRoutes);
 
 // 404 Handler for undefined routes
 app.use((req, res, next) => {
