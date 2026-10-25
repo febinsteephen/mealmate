@@ -2,6 +2,10 @@
 
 > A MERN Stack surplus food redistribution platform connecting restaurants and shops with donation camps and shelters, where food is completely free and recipients only pay a flat **₹200 delivery fee**.
 
+- **Live Hosted Application:** [https://mealmate-beta.vercel.app/](https://mealmate-beta.vercel.app/)
+- **GitHub Repository:** [https://github.com/febinsteephen/mealmate](https://github.com/febinsteephen/mealmate)
+- **Project Report:** [MealMate_Internship_Report.md](./MealMate_Internship_Report.md)
+
 ---
 
 ## 1. Project Overview & Problem Statement

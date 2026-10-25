@@ -8,10 +8,12 @@
 ### A MERN-Stack Surplus Food Redistribution & Logistics Platform
 
 **Student Name:** Febin Steephen  
+**Institution:** Sahrdaya College Of Engineering And Technology  
 **Internship Domain:** Full Stack Development (MERN Stack)  
 **Host Organization:** Information & Communication Technology Academy of Kerala (ICTAK)  
 **Submission Date:** October 2026  
 **Repository:** [github.com/febinsteephen/mealmate](https://github.com/febinsteephen/mealmate)  
+**Hosted Project:** [https://mealmate-beta.vercel.app/](https://mealmate-beta.vercel.app/)  
 
 ---
 
@@ -169,4 +171,5 @@ npm run dev # (In both server/ and client/)
 
 ### 9.3 Live Project Links
 - **GitHub Repository:** [https://github.com/febinsteephen/mealmate](https://github.com/febinsteephen/mealmate)
+- **Hosted Project:** [https://mealmate-beta.vercel.app/](https://mealmate-beta.vercel.app/)
 - **Database:** MongoDB Atlas M0 Cluster (`cluster0.vddpagd.mongodb.net`)
