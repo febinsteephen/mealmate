@@ -1,130 +1,161 @@
-# MealMate 🍲
+# MealMate
 
-> A MERN Stack surplus food redistribution platform connecting restaurants and shops with donation camps and shelters, where food is completely free and recipients only pay a flat **₹200 delivery fee**.
+[![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-47A248?style=flat-square&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
+[![Express.js](https://img.shields.io/badge/Express-4.x-000000?style=flat-square&logo=express&logoColor=white)](https://expressjs.com/)
+[![React](https://img.shields.io/badge/React-18-20232A?style=flat-square&logo=react&logoColor=61DAFB)](https://react.dev/)
+[![Node.js](https://img.shields.io/badge/Node.js-18+-339933?style=flat-square&logo=nodedotjs&logoColor=white)](https://nodejs.org/)
+[![Vite](https://img.shields.io/badge/Vite-8.x-646CFF?style=flat-square&logo=vite&logoColor=white)](https://vitejs.dev/)
+[![Live Status](https://img.shields.io/badge/Status-Live%20on%20Vercel-brightgreen?style=flat-square&logo=vercel&logoColor=white)](https://mealmate-beta.vercel.app/)
 
-- **Live Hosted Application:** [https://mealmate-beta.vercel.app/](https://mealmate-beta.vercel.app/)
-- **GitHub Repository:** [https://github.com/febinsteephen/mealmate](https://github.com/febinsteephen/mealmate)
-- **Project Report:** [MealMate_Internship_Report.md](./MealMate_Internship_Report.md)
+> A practical surplus food rescue platform connecting commercial restaurants and caterers with relief camps, orphanages, and old age homes at zero food cost with a flat ₹200 delivery fee.
 
----
+**Live Application:** [mealmate-beta.vercel.app](https://mealmate-beta.vercel.app/)  
+**Source Repository:** [febinsteephen/mealmate](https://github.com/febinsteephen/mealmate)  
+**Project Report:** [MealMate_Internship_Report.pdf](MealMate_Internship_Report.pdf)
 
-## 1. Project Overview & Problem Statement
+![MealMate Surplus Food Feed Preview](preview.png)
 
-- **Problem:** Commercial food establishments (restaurants, hotels, bakeries, caterers) generate edible surplus food daily that goes to waste. Concurrently, disaster relief camps, shelter homes, and community kitchens operate on limited budgets and struggle with meal supplies.
-- **Solution:** **MealMate** creates a transparent bridge:
-  - **Zero Food Price:** Donated food is listed at **₹0 / free of cost**.
-  - **Flat Delivery Fee:** Regardless of distance, a fixed **₹200** delivery charge is paid by the camp to prevent spam/hoarding and cover courier logistics.
-  - **Streamlined Identification:** Uses **Hotel/Shop Name** and **Camp/Donation Camp Name** without complex GPS/map overhead.
+Commercial food establishments (restaurants, bakeries, caterers) throw away edible leftovers every day, while nearby relief camps, orphanages, and old age homes operate on tight meal budgets. 
 
----
-
-## 2. Target Users & Roles
-
-| Role | Entity | Responsibilities & Capabilities |
-| :--- | :--- | :--- |
-| **`hotel`** | Restaurants / Shops | • Register with Hotel/Shop name and phone.<br>• Post surplus food (title, servings, veg/non-veg, claim window).<br>• View incoming claims from camps and update pickup/delivery progress.<br>• Manage and delete own food listings. |
-| **`camp`** | Donation / Relief Camps | • Register with Camp / Donation Camp name and phone.<br>• Discover active surplus food listings.<br>• Claim meals for their camp by paying the flat **₹200 delivery fee**.<br>• Track order status (`placed` $\rightarrow$ `picked_up` $\rightarrow$ `delivered`). |
-| **`admin`** | Platform Overseer | • Platform monitoring and administrative access. |
+MealMate bridges this gap through a simple bilateral exchange:
+1. **Food is 100% Free (₹0):** Participating hotels and restaurants list their edible surplus meals at zero item cost.
+2. **Flat ₹200 Delivery Fee:** Beneficiary camps only pay a fixed ₹200 logistics charge per batch to cover rider delivery and prevent speculative hoarding.
+3. **Name-Based Matching:** Uses clear hotel and camp names for identification without the overhead of real-time GPS coordinates or map APIs.
 
 ---
 
-## 3. Technology Stack
+## Tech Stack
 
-- **Frontend:** React (Vite), React Router DOM, Axios, Lucide Icons, Modern Responsive CSS.
-- **Backend:** Node.js, Express.js.
-- **Database:** MongoDB, Mongoose ODM.
-- **Authentication:** JSON Web Tokens (JWT), Bcrypt password hashing.
-- **Version Control:** Git & GitHub.
+- **Frontend:** React 18 (Vite), Axios, Context API, responsive CSS.
+- **Backend:** Node.js, Express.js REST API, CORS.
+- **Database:** MongoDB Atlas (Cloud M0 Cluster) with Mongoose ODM.
+- **Security:** JSON Web Tokens (JWT) for stateless auth, Bcrypt for salted password hashing.
+- **Hosting:** Vercel (Client SPA) + Render (Node API Service) + MongoDB Atlas (Cloud Replica Set).
 
 ---
 
-## 4. API Contract
+## What It Does
 
-| Method | Endpoint | Access | Purpose |
+### For Hotels & Restaurants (Donors)
+- Register and sign in with Hotel/Shop name and contact number.
+- Post surplus food batches with servings count, food category (Veg, Non-Veg, Mixed), and claim deadline.
+- View posted listings, monitor incoming claims from camps, and update order progress (`Picked Up` $\rightarrow$ `Delivered`).
+- Delete uncommitted surplus batches if plans change.
+
+### For Relief Camps, Orphanages & Shelters (Beneficiaries)
+- Search and browse available surplus food with active expiry countdowns.
+- Filter by category (`Veg Only`, `Non-Veg`, `Mixed`).
+- Claim food batches in one click and choose payment mode for the flat ₹200 fee (Online / COD).
+- Track order history and delivery milestones in real-time (`Order Placed` $\rightarrow$ `Out for Delivery` $\rightarrow$ `Delivered`).
+
+### Community Directory
+- Public searchable registry displaying all verified hotels donating meals and registered welfare institutions (categorized into Disaster Relief Camps, Children's Orphanages, and Senior Care Homes).
+
+### Reviewer Resiliency (Self-Healing Demo Feed)
+- The backend automatically checks listing validity. If all sample listings expire or get claimed, it rolls their deadlines forward by 4 to 9 hours so reviewers always encounter active, unexpired food listings with live countdown timers.
+- Evaluators can also click **"Refresh Demo Food"** on the browse screen anytime to restore all demo listings in 1 second.
+
+---
+
+## Demo Credentials
+
+All test accounts use the password: **`password123`**
+
+| Role | Account Name | Email | Password |
 | :--- | :--- | :--- | :--- |
-| **POST** | `/api/auth/register` | Public | Register a new Hotel or Camp user |
-| **POST** | `/api/auth/login` | Public | Authenticate user and receive JWT token |
-| **GET** | `/api/auth/me` | Private | Fetch logged-in user profile |
-| **GET** | `/api/listings` | Public | Browse all available unexpired surplus food |
-| **POST** | `/api/listings` | Private (`hotel`) | Create a new surplus food listing |
-| **GET** | `/api/listings/my-listings` | Private (`hotel`) | Get all listings posted by this hotel |
-| **DELETE** | `/api/listings/:id` | Private (`hotel`) | Delete own food listing |
-| **POST** | `/api/orders` | Private (`camp`) | Claim food listing (records flat ₹200 delivery fee) |
-| **GET** | `/api/orders/my-camp-orders` | Private (`camp`) | View claims & deliveries for this camp |
-| **GET** | `/api/orders/my-hotel-orders` | Private (`hotel`) | View incoming claims for this hotel's food |
-| **PATCH**| `/api/orders/:id/status` | Private | Update delivery status (`picked_up`, `delivered`) |
-| **GET** | `/api/health` | Public | Server health check endpoint |
+| **Hotel (Donor)** | Hotel Grand Malabar | `hotel.malabar@example.com` | `password123` |
+| **Hotel (Donor)** | Mandhi Manzil | `hotel.mandhimanzil@example.com` | `password123` |
+| **Camp (Beneficiary)** | Snehabhavan Orphanage | `camp.snehabhavan@example.com` | `password123` |
+| **Camp (Beneficiary)** | Wayanad Relief Camp | `camp.wayanad@example.com` | `password123` |
 
 ---
 
-## 5. Project Structure
-
-```text
-mernstack/
-├── client/                     # Frontend React (Vite) application
-│   ├── src/
-│   │   ├── components/         # Navbar, AuthModal, Reusable UI
-│   │   ├── context/            # AuthContext (JWT & state management)
-│   │   ├── pages/              # BrowseFoodPage, HotelDashboard, HotelOrdersPage, CampOrdersPage
-│   │   ├── services/           # Axios API client (interceptors, error handler)
-│   │   ├── App.jsx             # Main layout & role routing
-│   │   └── App.css             # Responsive styling & 4-state designs
-│   ├── .env.example            # Sample client environment variables
-│   └── package.json
-├── server/                     # Backend Node/Express API
-│   ├── src/
-│   │   ├── config/             # MongoDB connection (db.js)
-│   │   ├── controllers/        # authController, listingController, orderController
-│   │   ├── middleware/         # authMiddleware (JWT & roles), errorHandler
-│   │   ├── models/             # User.js, FoodListing.js, Order.js
-│   │   ├── routes/             # authRoutes, listingRoutes, orderRoutes
-│   │   └── server.js           # Express app setup and middleware
-│   ├── .env.example            # Sample server environment variables
-│   └── package.json
-├── .gitignore                  # Git ignore rules for node_modules, .env, dist
-└── README.md                   # Project documentation & guidelines
-```
-
----
-
-## 6. Getting Started & Local Setup
+## Running Locally
 
 ### Prerequisites
-- Node.js (v18+)
-- MongoDB running locally or MongoDB Atlas connection string
-- Git
+- Node.js (v18 or higher)
+- npm (v9 or higher)
+- MongoDB running locally or a MongoDB Atlas connection string
 
-### 1. Backend Setup
+### 1. Clone the repository
+```bash
+git clone https://github.com/febinsteephen/mealmate.git
+cd mealmate
+```
+
+### 2. Backend Setup
 ```bash
 cd server
 npm install
-# Configure environment variables
-cp .env.example .env
-# Start development server
-npm run dev
-```
-The server starts at `http://localhost:5000`.
 
-### 2. Frontend Setup
-```bash
-cd ../client
-npm install
-# Configure environment variables
+# Create environment file
 cp .env.example .env
-# Start Vite development server
+# Add your MONGODB_URI and JWT_SECRET inside server/.env
+
+# Optional: seed sample hotels, camps, and food listings
+npm run seed
+
+# Start server (runs on http://localhost:5000)
 npm run dev
 ```
-The frontend starts at `http://localhost:5173`.
+
+### 3. Frontend Setup
+In a new terminal:
+```bash
+cd client
+npm install
+
+# Create environment file
+cp .env.example .env
+
+# Start client (runs on http://localhost:5173)
+npm run dev
+```
 
 ---
 
-## 7. ICTAK Milestone Progress
-- [x] **Milestone 1:** Project defined (Problem statement, roles, MVP scope).
-- [x] **Milestone 2:** Repository & skeleton ready (Vite client, Express server, .gitignore).
-- [x] **Milestone 3:** Database models & schemas (`User`, `FoodListing`, `Order` with flat ₹200 fee).
-- [x] **Milestone 4:** Authentication & authorization (JWT, Role guards for `hotel` & `camp`).
-- [x] **Milestone 5:** Frontend MVP screens with 4 states (Loading, Success, Empty, Error).
-- [x] **Milestone 6:** Frontend & backend end-to-end integration.
-- [ ] **Milestone 7:** Testing, edge-case fixing, and demo data seeding.
-- [ ] **Milestone 8:** Deployment (Vercel / Render / MongoDB Atlas).
-- [ ] **Milestone 9:** Final submission checklist & presentation preparation.
+## API Endpoints
+
+| Method | Endpoint | Access | Description |
+| :--- | :--- | :--- | :--- |
+| `POST` | `/api/auth/register` | Public | Register a new Hotel or Camp account |
+| `POST` | `/api/auth/login` | Public | Sign in and receive JWT token |
+| `GET` | `/api/auth/me` | Private | Fetch logged-in user profile |
+| `GET` | `/api/auth/directory` | Public | Get verified hotels and welfare centers |
+| `GET` | `/api/listings` | Public | Get active unexpired surplus food |
+| `POST` | `/api/listings` | Private (`hotel`) | Publish a surplus food listing |
+| `DELETE` | `/api/listings/:id` | Private (`hotel`) | Delete own food listing |
+| `POST` | `/api/listings/reset-demo` | Public | Refresh demo food listings |
+| `POST` | `/api/orders` | Private (`camp`) | Claim food listing (records flat ₹200 fee) |
+| `GET` | `/api/orders/my-camp-orders` | Private (`camp`) | Get claim history for logged-in camp |
+| `GET` | `/api/orders/my-hotel-orders` | Private (`hotel`) | Get incoming claims for logged-in hotel |
+| `PATCH` | `/api/orders/:id/status` | Private | Update delivery status (`picked_up`, `delivered`) |
+| `GET` | `/api/health` | Public | Server health check endpoint |
+
+---
+
+## Project Structure
+
+```text
+mealmate/
+├── client/                     # React 18 SPA (Vite)
+│   ├── src/
+│   │   ├── components/         # Navbar, AuthModal
+│   │   ├── context/            # AuthContext (JWT & state management)
+│   │   ├── pages/              # BrowseFood, Directory, HotelDashboard, Orders
+│   │   └── services/           # Axios client with interceptors
+│   ├── vite.config.js          # Internal dev proxy to prevent CORS issues
+│   └── package.json
+├── server/                     # Express Node.js API
+│   ├── src/
+│   │   ├── config/             # Database connection with auto-retry
+│   │   ├── controllers/        # Auth, listing, and order business logic
+│   │   ├── middleware/         # JWT verification, RBAC, error handling
+│   │   ├── models/             # User, FoodListing, Order schemas
+│   │   ├── routes/             # REST API routes
+│   │   └── seed.js             # Sample hotels, camps, and food seeder
+│   └── package.json
+├── MealMate_Internship_Report.pdf  # Official internship project report
+├── preview.png                 # Application interface screenshot
+└── README.md
+```
